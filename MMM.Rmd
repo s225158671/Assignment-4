@@ -1,0 +1,284 @@
+---
+title: "MM"
+output: html_document
+date: "2025-10-05"
+---
+title: "MM"
+output: html_document
+date: "2025-10-05"
+---
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, fig.width = 7, fig.height = 7)
+
+```
+
+```{r}
+# Part 1
+
+# Download inputs from the assignment repo (tip: 'view raw' then copy URL) 
+download.file("https://github.com/ghazkha/Assessment4/raw/main/gene_expression.tsv",
+              destfile = "gene_expression.tsv", quiet = TRUE)
+
+download.file("https://github.com/ghazkha/Assessment4/raw/main/growth_data.csv",
+              destfile = "growth_data.csv", quiet = TRUE)
+
+list.files()
+```
+```{r}
+# Q1: read TSV, gene IDs as row names
+gene_data <- read.table("gene_expression.tsv",
+                        header = TRUE,
+                        row.names = 1,
+                        sep = "\t")
+head(gene_data)  # first six genes
+```
+```{r}
+# Q2: add mean of the other (numeric) columns
+num_cols <- sapply(gene_data, is.numeric)
+gene_data$mean_expression <- rowMeans(gene_data[, num_cols, drop = FALSE])
+head(gene_data)
+```
+```{r}
+# Q3: Top 10 by mean
+sorted_genes <- gene_data[order(-gene_data$mean_expression), ]
+top_10_genes <- head(sorted_genes, 10)
+top_10_genes
+```
+```{r}
+# Q4: Count genes with mean < 10
+sum(gene_data$mean_expression < 10)
+```
+```{r}
+# Q5: Histogram of mean values
+hist(gene_data$mean_expression,
+     xlab = "Mean Expression",
+     ylab = "Frequency",
+     main = "Distribution of Mean Gene Expression",
+     breaks = 30)
+```
+```{r}
+# Q6: Read the growth CSV
+growth_data <- read.csv("growth_data.csv")
+colnames(growth_data)
+```
+```{r}
+str(growth_data)
+
+```
+```{r}
+# Q7: Mean and SD at start (2005) and end (2020) 
+mean_start <- tapply(growth_data$Circumf_2005_cm, growth_data$Site, mean)
+sd_start   <- tapply(growth_data$Circumf_2005_cm, growth_data$Site, sd)
+mean_end   <- tapply(growth_data$Circumf_2020_cm, growth_data$Site, mean)
+sd_end     <- tapply(growth_data$Circumf_2020_cm, growth_data$Site, sd)
+
+data.frame(
+  Site = names(mean_start),
+  Mean_2005 = as.numeric(mean_start),
+  SD_2005   = as.numeric(sd_start),
+  Mean_2020 = as.numeric(mean_end),
+  SD_2020   = as.numeric(sd_end),
+  row.names = NULL
+)
+
+```
+```{r}
+# Q8: Boxplot — start vs end of study (2005 vs 2020) at both sites  
+boxplot(
+  growth_data$Circumf_2005_cm[growth_data$Site == "northeast"],
+  growth_data$Circumf_2020_cm[growth_data$Site == "northeast"],
+  growth_data$Circumf_2005_cm[growth_data$Site == "southwest"],
+  growth_data$Circumf_2020_cm[growth_data$Site == "southwest"],
+  names = c("Northeast 2005", "Northeast 2020", "Southwest 2005", "Southwest 2020"),
+  ylab = "Tree Circumference (cm)",
+  main = "Tree Growth (Start vs End of Study)"
+)  
+```
+```{r}
+# Q9: Mean 10-year growth by site (2010 → 2020)
+growth_data$growth_10yr <- growth_data$Circumf_2020_cm - growth_data$Circumf_2010_cm
+northeast_growth_mean <- mean(growth_data$growth_10yr[growth_data$Site == "northeast"], na.rm = TRUE)
+southwest_growth_mean <- mean(growth_data$growth_10yr[growth_data$Site == "southwest"], na.rm = TRUE)
+c(Northeast_mean_10yr = northeast_growth_mean,
+  Southwest_mean_10yr = southwest_growth_mean)
+```
+```{r}
+# Q10: t-test on 10-year growth 
+df <- na.omit(growth_data[, c("Site", "growth_10yr")])
+
+t_res <- t.test(growth_10yr ~ Site, data = df)  
+t_res                 
+```
+```{r}
+# Part 2
+suppressPackageStartupMessages({
+  library(seqinr)   # sequence analysis
+  library(R.utils)  # gunzip
+})
+```
+
+```{r}
+# Download 
+URL_ecoli <- "https://ftp.ensemblgenomes.ebi.ac.uk/pub/bacteria/release-62/fasta/bacteria_0_collection/escherichia_coli_str_k_12_substr_mg1655_gca_000005845/cds/Escherichia_coli_str_k_12_substr_mg1655_gca_000005845.ASM584v2.cds.all.fa.gz"
+URL_sal   <- "https://ftp.ensemblgenomes.ebi.ac.uk/pub/bacteria/release-62/fasta/bacteria_50_collection/salmonella_enterica_subsp_enterica_serovar_weltevreden_gca_005518735/cds/Salmonella_enterica_subsp_enterica_serovar_weltevreden_gca_005518735.ASM551873v1.cds.all.fa.gz"
+
+if (!file.exists("ecoli_cds.fa")) {
+  download.file(URL_ecoli, destfile = "ecoli_cds.fa.gz", quiet = TRUE, mode = "wb")
+  R.utils::gunzip("ecoli_cds.fa.gz", overwrite = TRUE)
+}
+if (!file.exists("salmonella_cds.fa")) {
+  download.file(URL_sal,  destfile = "salmonella_cds.fa.gz", quiet = TRUE, mode = "wb")
+  R.utils::gunzip("salmonella_cds.fa.gz", overwrite = TRUE)
+}
+
+# Sanity check before reading
+stopifnot(file.exists("ecoli_cds.fa"), file.exists("salmonella_cds.fa"))
+
+# Read FASTA
+cds_ecoli <- seqinr::read.fasta("ecoli_cds.fa")
+cds_sal   <- seqinr::read.fasta("salmonella_cds.fa")
+
+```
+
+```{r}
+str(head(cds_sal))
+
+```
+```{r}
+# Q1: Number of CDS in each organism 
+num_ecoli_cds <- length(cds_ecoli)
+num_salmonella_cds <- length(cds_sal)
+
+data.frame(
+  Organism = c("E. coli MG1655", "Salmonella Weltevreden"),
+  CDS_Count = c(num_ecoli_cds, num_salmonella_cds),
+  row.names = NULL
+)
+```
+```{r}
+# Q2: Total coding DNA length for each organism  
+len_ecoli <- as.numeric(summary(cds_ecoli)[, 1])
+len_sal   <- as.numeric(summary(cds_sal)[, 1])
+
+data.frame(
+  Organism = c("E. coli MG1655", "Salmonella Weltevreden"),
+  Total_Coding_DNA_bp = c(sum(len_ecoli), sum(len_sal)),
+  row.names = NULL
+)
+```
+```{r}
+# Q3: Boxplot of CDS lengths + mean/median table  =
+boxplot(len_sal, len_ecoli,
+        names = c("Salmonella", "E. coli"),
+        ylab = "CDS Length (bp)",
+        main = "Distribution of CDS Lengths")
+```
+```{r}
+length_stats <- data.frame(
+  Organism = c("Salmonella Weltevreden", "E. coli MG1655"),
+  Mean_CDS_Length   = c(mean(len_sal), mean(len_ecoli)),
+  Median_CDS_Length = c(median(len_sal), median(len_ecoli))
+)
+length_stats
+```
+```{r}
+# Q4/Q5: Nucleotide and amino acid frequencies
+
+# DNA composition (nucleotide frequency)
+barplot(table(unlist(cds_sal)),
+        main = "Salmonella Nucleotide Frequency",
+        xlab = "Nucleotide", ylab = "Frequency")
+barplot(table(unlist(cds_ecoli)),
+        main = "E. coli Nucleotide Frequency",
+        xlab = "Nucleotide", ylab = "Frequency")
+# Translate with bacterial code using namespaced seqinr::translate
+prot_sal   <- lapply(cds_sal,   function(x) seqinr::translate(x, numcode = 11))
+prot_ecoli <- lapply(cds_ecoli, function(x) seqinr::translate(x, numcode = 11))
+
+# Amino acid composition
+barplot(table(unlist(prot_sal)),
+        main = "Salmonella Amino Acid Frequency",
+        xlab = "Amino Acid", ylab = "Frequency")
+barplot(table(unlist(prot_ecoli)),
+        main = "E. coli Amino Acid Frequency",
+        xlab = "Amino Acid", ylab = "Frequency")
+```
+
+```{r}
+# Q6: Codon usage — counts ("eff") and RSCU
+codon_usage_sal_counts   <- seqinr::uco(unlist(cds_sal),   index = "eff")
+codon_usage_ecoli_counts <- seqinr::uco(unlist(cds_ecoli), index = "eff")
+
+rscu_sal   <- seqinr::uco(unlist(cds_sal),   index = "rscu")
+rscu_ecoli <- seqinr::uco(unlist(cds_ecoli), index = "rscu")
+
+# Top 20 by RSCU
+barplot(sort(rscu_sal,   decreasing = TRUE)[1:20],
+        las = 2, xlab = "Codon", ylab = "RSCU",
+        main = "Salmonella — Top 20 Codons (RSCU)")
+barplot(sort(rscu_ecoli, decreasing = TRUE)[1:20],
+        las = 2, xlab = "Codon", ylab = "RSCU",
+        main = "E. coli — Top 20 Codons (RSCU)")
+# ---- Protein k-mer analysis: Salmonella vs E. coli (k = 3, 4, 5) 
+# Using seqinr + base R.
+
+# 1) Ensure translated proteins exist
+if (!exists("prot_sal") || !exists("prot_ecoli")) {
+  prot_sal   <- lapply(cds_sal,   function(x) seqinr::translate(x, numcode = 11))
+  prot_ecoli <- lapply(cds_ecoli, function(x) seqinr::translate(x, numcode = 11))
+}
+
+# 2) Remove stop codons '*' and flatten to single AA vectors
+prot_sal   <- lapply(prot_sal,   function(v) v[v != "*"])
+prot_ecoli <- lapply(prot_ecoli, function(v) v[v != "*"])
+prots_sal   <- unlist(prot_sal)
+prots_ecoli <- unlist(prot_ecoli)
+
+# 3) Explicit 20-AA alphabet 
+AA <- strsplit("ACDEFGHIKLMNPQRSTVWY", "")[[1]]
+
+# 4) Helper
+aa_kmer_freq <- function(aa_vec, k) {
+  seqinr::count(aa_vec, wordsize = k, alphabet = AA, freq = TRUE)
+}
+
+# 5) For each k in 3:5, pick Salmonella’s top/bottom 10 and compare to E. coli
+analyze_k <- function(k) {
+  freq_sal   <- aa_kmer_freq(prots_sal,   k)
+  freq_ecoli <- aa_kmer_freq(prots_ecoli, k)
+
+  if (length(freq_sal) == 0) return(invisible(NULL))
+
+  # Top 10 (by Salmonella)
+  top10    <- sort(freq_sal, decreasing = TRUE)[1:min(10, sum(freq_sal > 0))]
+  bottom10 <- sort(freq_sal, decreasing = FALSE)[1:min(10, length(freq_sal))]
+
+  # Align on the same k-mer names for comparison
+  comp_top <- rbind(Salmonella = freq_sal[names(top10)],
+                    `E. coli`  = freq_ecoli[names(top10)])
+  comp_bottom <- rbind(Salmonella = freq_sal[names(bottom10)],
+                       `E. coli`  = freq_ecoli[names(bottom10)])
+
+  # Plots
+  op <- par(no.readonly = TRUE); par(mfrow = c(1,2), mar = c( nine <- 9, 4, 3, 1))
+  barplot(comp_top, beside = TRUE, las = 2, ylab = "Frequency",
+          main = paste0("k=", k, " — Top 10 in Salmonella"))
+  barplot(comp_bottom, beside = TRUE, las = 2, ylab = "Frequency",
+          main = paste0("k=", k, " — Bottom 10 in Salmonella"))
+  par(op)
+
+  invisible(list(k = k, top = top10, bottom = bottom10,
+                 comp_top = comp_top, comp_bottom = comp_bottom))
+}
+
+res_k3 <- analyze_k(3)
+res_k4 <- analyze_k(4)
+res_k5 <- analyze_k(5)
+
+```
+
+```{r}
+sessionInfo()
+
+```
+
