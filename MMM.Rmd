@@ -1,17 +1,15 @@
 ---
 title: "MM"
-output: html_document
-date: "2025-10-05"
----
-title: "MM"
-output: html_document
+output:
+  pdf_document: default
+  html_document: default
 date: "2025-10-05"
 ---
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE, fig.width = 7, fig.height = 7)
 
 ```
-
+#Downloaded two datasets from GitHub into my working directory and verified that they are saved by listing the directory contents.
 ```{r}
 # Part 1
 
@@ -24,6 +22,8 @@ download.file("https://github.com/ghazkha/Assessment4/raw/main/growth_data.csv",
 
 list.files()
 ```
+
+#Q1 I read the gene expression table (`gene_expression.tsv`) with the first column of gene IDs set as row names and then displayed the first six rows using `head(gene_data)`. The output shows raw integer counts for each gene across three samples. Most genes have low or zero counts, while some like *WASH7P* show relatively high expression, indicating variability in transcription levels between genes and across samples.
 ```{r}
 # Q1: read TSV, gene IDs as row names
 gene_data <- read.table("gene_expression.tsv",
@@ -32,22 +32,28 @@ gene_data <- read.table("gene_expression.tsv",
                         sep = "\t")
 head(gene_data)  # first six genes
 ```
+#Q2 I selected all numeric sample columns with `sapply(..., is.numeric)`, computed the row‐wise mean using `rowMeans`, and appended it as a new column `mean_expression`, then previewed the first six rows. In the output, I now see an extra column at the far right (so the viewer shows “1–3 of 4 columns”), giving each gene’s average count across the samples—most genes have means near zero, while genes like **WASH7P** have a much higher mean, reflecting stronger expression.
 ```{r}
 # Q2: add mean of the other (numeric) columns
 num_cols <- sapply(gene_data, is.numeric)
 gene_data$mean_expression <- rowMeans(gene_data[, num_cols, drop = FALSE])
 head(gene_data)
 ```
+#Q3 I ordered the genes by descending `mean_expression` and pulled the first ten rows, then printed them. The output shows the top-10 most highly expressed genes across samples—mostly mitochondrial genes (MT-CO1, MT-ND4, MT-CO3, MT-ND1, MT-ATP6, MT-CYB, MT-ND2, MT-CO2) along with **GPX3** and **EEF1A1**—with very large counts. I also see that the second sample (5EGHI) is generally higher than the first (5GZZ7), suggesting between-sample expression differences.
+
 ```{r}
 # Q3: Top 10 by mean
 sorted_genes <- gene_data[order(-gene_data$mean_expression), ]
 top_10_genes <- head(sorted_genes, 10)
 top_10_genes
 ```
+#Q4 I counted how many genes have an average expression < 10 across samples using `sum(gene_data$mean_expression < 10)` and got **35,988** genes, indicating a very sparse dataset where most genes are lowly expressed or not detected.
 ```{r}
 # Q4: Count genes with mean < 10
 sum(gene_data$mean_expression < 10)
 ```
+#Q5 I plotted a histogram of the `mean_expression` values for all genes to visualize their distribution. The plot shows that the vast majority of genes cluster near zero, producing a tall bar at the left edge of the graph. Only a small fraction of genes have very high expression values, which appear as a long right tail on the x-axis. This confirms what we saw earlier: most genes are expressed at low levels, while a few, like mitochondrial and housekeeping genes, dominate the total expression.
+
 ```{r}
 # Q5: Histogram of mean values
 hist(gene_data$mean_expression,
@@ -56,15 +62,20 @@ hist(gene_data$mean_expression,
      main = "Distribution of Mean Gene Expression",
      breaks = 30)
 ```
+#Q6 I loaded `growth_data.csv` into a data frame and listed its columns. The dataset has a site label and tree identifier (`Site`, `TreeID`) plus trunk circumference measurements in centimeters for four censuses: `Circumf_2005_cm`, `Circumf_2010_cm`, `Circumf_2015_cm`, and `Circumf_2020_cm`.
+
 ```{r}
 # Q6: Read the growth CSV
 growth_data <- read.csv("growth_data.csv")
 colnames(growth_data)
 ```
+#I examined the structure of `growth_data` and found it contains 100 observations with 6 variables. The dataset includes the site and tree ID, along with trunk circumference measurements (in cm) recorded at four time points: 2005, 2010, 2015, and 2020. Each row represents a single tree, showing its location and growth progression across years.
 ```{r}
 str(growth_data)
 
 ```
+#Q7 I calculated the average circumference and its standard deviation for trees in each site at the beginning (2005) and the end (2020). In 2005, the northeast site had slightly larger trees on average (≈ 5.29 cm) compared to the southwest (≈ 4.86 cm), with low variability. By 2020, both sites showed substantial growth: northeast trees averaged ≈ 54.2 cm and southwest trees ≈ 45.6 cm. The standard deviations also rose (≈ 25.2 in northeast, ≈ 17.9 in southwest), showing that tree sizes became more variable over time.
+
 ```{r}
 # Q7: Mean and SD at start (2005) and end (2020) 
 mean_start <- tapply(growth_data$Circumf_2005_cm, growth_data$Site, mean)
@@ -82,6 +93,7 @@ data.frame(
 )
 
 ```
+#Q8 I made boxplots comparing tree circumferences at the start (2005) and end (2020) of the study for both northeast and southwest sites.The plot shows that in 2005, trees at both sites had very small circumferences, tightly clustered around 5 cm. By 2020, the distributions had shifted dramatically upward: northeast trees reached higher median values and displayed a wider spread (greater variability), while southwest trees also grew substantially but remained somewhat smaller on average. This visualization highlights strong overall growth over 15 years, with northeast trees tending to become both larger and more variable in size compared to southwest trees.
 ```{r}
 # Q8: Boxplot — start vs end of study (2005 vs 2020) at both sites  
 boxplot(
@@ -94,6 +106,7 @@ boxplot(
   main = "Tree Growth (Start vs End of Study)"
 )  
 ```
+#Q9 I calculated the average 10-year growth in tree circumference (2010 → 2020) for each site. The results show that **northeast trees grew on average about 42.94 cm**, while **southwest trees grew about 35.49 cm** over the same period. This indicates that trees in the northeast site had faster growth on average compared to those in the southwest.
 ```{r}
 # Q9: Mean 10-year growth by site (2010 → 2020)
 growth_data$growth_10yr <- growth_data$Circumf_2020_cm - growth_data$Circumf_2010_cm
@@ -102,6 +115,7 @@ southwest_growth_mean <- mean(growth_data$growth_10yr[growth_data$Site == "south
 c(Northeast_mean_10yr = northeast_growth_mean,
   Southwest_mean_10yr = southwest_growth_mean)
 ```
+#Q10 I performed a Welch two-sample t-test to compare 10-year growth between sites. The results show that northeast trees grew more on average (42.94 cm) than southwest trees (35.49 cm). The test statistic was t = 1.89 with a p-value of 0.062, and the 95% confidence interval for the difference spanned from about -0.39 to 15.29. Since the p-value is slightly above 0.05, the difference in growth between sites is not statistically significant, though there is a clear trend toward greater growth in the northeast.
 ```{r}
 # Q10: t-test on 10-year growth 
 df <- na.omit(growth_data[, c("Site", "growth_10yr")])
@@ -109,6 +123,7 @@ df <- na.omit(growth_data[, c("Site", "growth_10yr")])
 t_res <- t.test(growth_10yr ~ Site, data = df)  
 t_res                 
 ```
+#I loaded the needed packages—**seqinr** for sequence analysis and **R.utils** for utilities like `gunzip`while suppressing their startup messages.
 ```{r}
 # Part 2
 suppressPackageStartupMessages({
@@ -116,7 +131,7 @@ suppressPackageStartupMessages({
   library(R.utils)  # gunzip
 })
 ```
-
+#I downloaded coding-sequence FASTA files for *E. coli* K-12 MG1655 and a *Salmonella enterica* strain, decompressed the `.gz` archives, and verified the files exist. Then I read each FASTA with `seqinr::read.fasta`, so `cds_ecoli` and `cds_sal` are lists of CDS entries (each with a header and nucleotide sequence) ready for downstream analysis.
 ```{r}
 # Download 
 URL_ecoli <- "https://ftp.ensemblgenomes.ebi.ac.uk/pub/bacteria/release-62/fasta/bacteria_0_collection/escherichia_coli_str_k_12_substr_mg1655_gca_000005845/cds/Escherichia_coli_str_k_12_substr_mg1655_gca_000005845.ASM584v2.cds.all.fa.gz"
@@ -139,11 +154,12 @@ cds_ecoli <- seqinr::read.fasta("ecoli_cds.fa")
 cds_sal   <- seqinr::read.fasta("salmonella_cds.fa")
 
 ```
-
+#I inspected the first six CDS entries in cds_sal and saw each is a 'SeqFastadna' object: a character vector of nucleotides (e.g., lengths 417, 402, 2613…) with attributes name (Ensembl-style ID like ENSB:rzMRPrOXj2f6n3A) and Annot, which holds the FASTA header. The header encodes metadata such as “cds”, assembly (ASM551873v1), contig and coordinates, strand (+/−), and the linked gene ID—so each list element is one Salmonella CDS with its sequence and genomic annotation.
 ```{r}
 str(head(cds_sal))
 
 ```
+#Q1 I counted the number of CDS entries in each FASTA list with `length()`, then put the results in a small data frame. I found 4,239 CDS for *E. coli* MG1655 and 4,585 CDS for Salmonella Weltevreden, so the Salmonella genome build here contains slightly more annotated coding sequences than the E. coli reference.
 ```{r}
 # Q1: Number of CDS in each organism 
 num_ecoli_cds <- length(cds_ecoli)
@@ -155,6 +171,8 @@ data.frame(
   row.names = NULL
 )
 ```
+#Q2 I computed the length of each CDS by pulling the sequence lengths from `summary()` for the FASTA lists and then summed them per organism. The totals show about 3,978,528 bp of coding DNA in E. coli MG1655 and 4,294,851 bp in Salmonella Weltevreden, so Salmonella has a larger aggregate coding sequence than E. coli in these builds.
+
 ```{r}
 # Q2: Total coding DNA length for each organism  
 len_ecoli <- as.numeric(summary(cds_ecoli)[, 1])
@@ -166,6 +184,7 @@ data.frame(
   row.names = NULL
 )
 ```
+#Q3 I plotted CDS length distributions for Salmonella and E. coli. Both are right-skewed with many short CDS and a few very long outliers; Salmonella’s median looks a bit higher and it shows more extreme long CDS.
 ```{r}
 # Q3: Boxplot of CDS lengths + mean/median table  =
 boxplot(len_sal, len_ecoli,
@@ -173,6 +192,7 @@ boxplot(len_sal, len_ecoli,
         ylab = "CDS Length (bp)",
         main = "Distribution of CDS Lengths")
 ```
+#I computed summary stats for CDS lengths in both organisms. The table shows the mean CDS length is almost the same ~936.7 bp for Salmonella and ~938.6 bp for E. coli—and I also included the median column.The means being slightly higher than the medians reflects the right-skewed distributions with a few very long CDS, consistent with the boxplot.
 ```{r}
 length_stats <- data.frame(
   Organism = c("Salmonella Weltevreden", "E. coli MG1655"),
@@ -181,6 +201,7 @@ length_stats <- data.frame(
 )
 length_stats
 ```
+#Q4/5 I tallied nucleotide counts across all CDS with table(unlist(...)) and plotted them; both organisms show a modest GC bias—g (and c) are a bit higher than a/t. I then translated every CDS using the bacterial code (11) and plotted amino-acid frequencies. As expected for GC-rich bacteria, Leu (L) is most common, with Ala (A), Gly (G), Val (V), Ser (S) also high; Trp (W) and Cys (C) are among the rarest, and the stop (*) count is small. The overall profiles are very similar between Salmonella and E. coli, with Salmonella showing a slightly stronger GC/GC-codon signal.
 ```{r}
 # Q4/Q5: Nucleotide and amino acid frequencies
 
@@ -203,6 +224,8 @@ barplot(table(unlist(prot_ecoli)),
         main = "E. coli Amino Acid Frequency",
         xlab = "Amino Acid", ylab = "Frequency")
 ```
+#Q6 I ranked codon usage by RSCU and saw a clear GC bias in both genomes: CTG (Leu) is the top codon, with many other favored G/C-ending codons (CGC, CCG, GGC). Comparing amino-acid k-mers (k=3–5) between Salmonella and E. coli, I found the most common motifs are rich in Leu and Ala (e.g., LLA, ALAA, LLLAL), while the rarest combinations include infrequent residues like Trp, Cys, His, or Tyr. Across all plots the two species closely match, indicating similar codon preferences and local amino-acid composition, with only minor differences at the extremes. I think the different levels come from a mix of forces. First, both genomes are moderately GC-rich, so G/C-ending codons naturally arise more often and persist, boosting RSCU for codons like CTG/CGC/CCG/GGC. Second, translation selection matters: highly expressed genes prefer codons that match abundant tRNAs, so if tRNA^Leu(CAG) is plentiful, CTG (Leu) wins. Third, protein chemistry shapes k-mers—Leu and Ala are cheap, hydrophobic, and helix-friendly, so L/A-rich motifs are common, while costly or reactive residues (Trp, Cys, His, Tyr) are rarer. mRNA-level constraints (avoiding strong secondary structures or problematic motifs) and codon-pair/dipeptide kinetics also bias which sequences are favored. Finally, lineage history and horizontal gene transfer introduce species-specific codon signatures. Overall, shared GC content and translational ecology explain the similarity, while tRNA pools, expression programs, structural demands, and HGT create the subtle differences.
+
 
 ```{r}
 # Q6: Codon usage — counts ("eff") and RSCU
@@ -279,6 +302,4 @@ res_k5 <- analyze_k(5)
 
 ```{r}
 sessionInfo()
-
 ```
-
