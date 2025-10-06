@@ -1,0 +1,987 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\usepackage[margin=1in]{geometry}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+\usepackage{bookmark}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  pdftitle={MM},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+\title{MM}
+\author{}
+\date{\vspace{-2.5em}2025-10-05}
+
+\begin{document}
+\maketitle
+
+\#Downloaded two datasets from GitHub into my working directory and
+verified that they are saved by listing the directory contents.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Part 1}
+
+\CommentTok{\# Download inputs from the assignment repo (tip: \textquotesingle{}view raw\textquotesingle{} then copy URL) }
+\FunctionTok{download.file}\NormalTok{(}\StringTok{"https://github.com/ghazkha/Assessment4/raw/main/gene\_expression.tsv"}\NormalTok{,}
+              \AttributeTok{destfile =} \StringTok{"gene\_expression.tsv"}\NormalTok{, }\AttributeTok{quiet =} \ConstantTok{TRUE}\NormalTok{)}
+
+\FunctionTok{download.file}\NormalTok{(}\StringTok{"https://github.com/ghazkha/Assessment4/raw/main/growth\_data.csv"}\NormalTok{,}
+              \AttributeTok{destfile =} \StringTok{"growth\_data.csv"}\NormalTok{, }\AttributeTok{quiet =} \ConstantTok{TRUE}\NormalTok{)}
+
+\FunctionTok{list.files}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##  [1] "Assignment-4.Rproj"  "ecoli_cds.fa"        "gene_expression.tsv"
+##  [4] "growth_data.csv"     "LICENSE"             "MMM_files"          
+##  [7] "MMM.html"            "MMM.Rmd"             "README.md"          
+## [10] "salmonella_cds.fa"
+\end{verbatim}
+
+\#Q1 I read the gene expression table (\texttt{gene\_expression.tsv})
+with the first column of gene IDs set as row names and then displayed
+the first six rows using \texttt{head(gene\_data)}. The output shows raw
+integer counts for each gene across three samples. Most genes have low
+or zero counts, while some like \emph{WASH7P} show relatively high
+expression, indicating variability in transcription levels between genes
+and across samples.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Q1: read TSV, gene IDs as row names}
+\NormalTok{gene\_data }\OtherTok{\textless{}{-}} \FunctionTok{read.table}\NormalTok{(}\StringTok{"gene\_expression.tsv"}\NormalTok{,}
+                        \AttributeTok{header =} \ConstantTok{TRUE}\NormalTok{,}
+                        \AttributeTok{row.names =} \DecValTok{1}\NormalTok{,}
+                        \AttributeTok{sep =} \StringTok{"}\SpecialCharTok{\textbackslash{}t}\StringTok{"}\NormalTok{)}
+\FunctionTok{head}\NormalTok{(gene\_data)  }\CommentTok{\# first six genes}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##                               GTEX.1117F.0226.SM.5GZZ7 GTEX.1117F.0426.SM.5EGHI
+## ENSG00000223972.5_DDX11L1                            0                        0
+## ENSG00000227232.5_WASH7P                           187                      109
+## ENSG00000278267.1_MIR6859-1                          0                        0
+## ENSG00000243485.5_MIR1302-2HG                        1                        0
+## ENSG00000237613.2_FAM138A                            0                        0
+## ENSG00000268020.3_OR4G4P                             0                        1
+##                               GTEX.1117F.0526.SM.5EGHJ
+## ENSG00000223972.5_DDX11L1                            0
+## ENSG00000227232.5_WASH7P                           143
+## ENSG00000278267.1_MIR6859-1                          1
+## ENSG00000243485.5_MIR1302-2HG                        0
+## ENSG00000237613.2_FAM138A                            0
+## ENSG00000268020.3_OR4G4P                             0
+\end{verbatim}
+
+\#Q2 I selected all numeric sample columns with
+\texttt{sapply(...,\ is.numeric)}, computed the row‐wise mean using
+\texttt{rowMeans}, and appended it as a new column
+\texttt{mean\_expression}, then previewed the first six rows. In the
+output, I now see an extra column at the far right (so the viewer shows
+``1--3 of 4 columns''), giving each gene's average count across the
+samples---most genes have means near zero, while genes like
+\textbf{WASH7P} have a much higher mean, reflecting stronger expression.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Q2: add mean of the other (numeric) columns}
+\NormalTok{num\_cols }\OtherTok{\textless{}{-}} \FunctionTok{sapply}\NormalTok{(gene\_data, is.numeric)}
+\NormalTok{gene\_data}\SpecialCharTok{$}\NormalTok{mean\_expression }\OtherTok{\textless{}{-}} \FunctionTok{rowMeans}\NormalTok{(gene\_data[, num\_cols, }\AttributeTok{drop =} \ConstantTok{FALSE}\NormalTok{])}
+\FunctionTok{head}\NormalTok{(gene\_data)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##                               GTEX.1117F.0226.SM.5GZZ7 GTEX.1117F.0426.SM.5EGHI
+## ENSG00000223972.5_DDX11L1                            0                        0
+## ENSG00000227232.5_WASH7P                           187                      109
+## ENSG00000278267.1_MIR6859-1                          0                        0
+## ENSG00000243485.5_MIR1302-2HG                        1                        0
+## ENSG00000237613.2_FAM138A                            0                        0
+## ENSG00000268020.3_OR4G4P                             0                        1
+##                               GTEX.1117F.0526.SM.5EGHJ mean_expression
+## ENSG00000223972.5_DDX11L1                            0       0.0000000
+## ENSG00000227232.5_WASH7P                           143     146.3333333
+## ENSG00000278267.1_MIR6859-1                          1       0.3333333
+## ENSG00000243485.5_MIR1302-2HG                        0       0.3333333
+## ENSG00000237613.2_FAM138A                            0       0.0000000
+## ENSG00000268020.3_OR4G4P                             0       0.3333333
+\end{verbatim}
+
+\#Q3 I ordered the genes by descending \texttt{mean\_expression} and
+pulled the first ten rows, then printed them. The output shows the
+top-10 most highly expressed genes across samples---mostly mitochondrial
+genes (MT-CO1, MT-ND4, MT-CO3, MT-ND1, MT-ATP6, MT-CYB, MT-ND2, MT-CO2)
+along with \textbf{GPX3} and \textbf{EEF1A1}---with very large counts. I
+also see that the second sample (5EGHI) is generally higher than the
+first (5GZZ7), suggesting between-sample expression differences.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Q3: Top 10 by mean}
+\NormalTok{sorted\_genes }\OtherTok{\textless{}{-}}\NormalTok{ gene\_data[}\FunctionTok{order}\NormalTok{(}\SpecialCharTok{{-}}\NormalTok{gene\_data}\SpecialCharTok{$}\NormalTok{mean\_expression), ]}
+\NormalTok{top\_10\_genes }\OtherTok{\textless{}{-}} \FunctionTok{head}\NormalTok{(sorted\_genes, }\DecValTok{10}\NormalTok{)}
+\NormalTok{top\_10\_genes}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##                           GTEX.1117F.0226.SM.5GZZ7 GTEX.1117F.0426.SM.5EGHI
+## ENSG00000198804.2_MT-CO1                    267250                  1101779
+## ENSG00000198886.2_MT-ND4                    273188                   991891
+## ENSG00000198938.2_MT-CO3                    250277                  1041376
+## ENSG00000198888.2_MT-ND1                    243853                   772966
+## ENSG00000198899.2_MT-ATP6                   141374                   696715
+## ENSG00000198727.2_MT-CYB                    127194                   638209
+## ENSG00000198763.3_MT-ND2                    159303                   543786
+## ENSG00000211445.11_GPX3                     464959                    39396
+## ENSG00000198712.1_MT-CO2                    128858                   545360
+## ENSG00000156508.17_EEF1A1                   317642                    39573
+##                           GTEX.1117F.0526.SM.5EGHJ mean_expression
+## ENSG00000198804.2_MT-CO1                    218923        529317.3
+## ENSG00000198886.2_MT-ND4                    277628        514235.7
+## ENSG00000198938.2_MT-CO3                    223178        504943.7
+## ENSG00000198888.2_MT-ND1                    194032        403617.0
+## ENSG00000198899.2_MT-ATP6                   151166        329751.7
+## ENSG00000198727.2_MT-CYB                    141359        302254.0
+## ENSG00000198763.3_MT-ND2                    149564        284217.7
+## ENSG00000211445.11_GPX3                     306070        270141.7
+## ENSG00000198712.1_MT-CO2                    122816        265678.0
+## ENSG00000156508.17_EEF1A1                   339347        232187.3
+\end{verbatim}
+
+\#Q4 I counted how many genes have an average expression \textless{} 10
+across samples using
+\texttt{sum(gene\_data\$mean\_expression\ \textless{}\ 10)} and got
+\textbf{35,988} genes, indicating a very sparse dataset where most genes
+are lowly expressed or not detected.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Q4: Count genes with mean \textless{} 10}
+\FunctionTok{sum}\NormalTok{(gene\_data}\SpecialCharTok{$}\NormalTok{mean\_expression }\SpecialCharTok{\textless{}} \DecValTok{10}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 35988
+\end{verbatim}
+
+\#Q5 I plotted a histogram of the \texttt{mean\_expression} values for
+all genes to visualize their distribution. The plot shows that the vast
+majority of genes cluster near zero, producing a tall bar at the left
+edge of the graph. Only a small fraction of genes have very high
+expression values, which appear as a long right tail on the x-axis. This
+confirms what we saw earlier: most genes are expressed at low levels,
+while a few, like mitochondrial and housekeeping genes, dominate the
+total expression.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Q5: Histogram of mean values}
+\FunctionTok{hist}\NormalTok{(gene\_data}\SpecialCharTok{$}\NormalTok{mean\_expression,}
+     \AttributeTok{xlab =} \StringTok{"Mean Expression"}\NormalTok{,}
+     \AttributeTok{ylab =} \StringTok{"Frequency"}\NormalTok{,}
+     \AttributeTok{main =} \StringTok{"Distribution of Mean Gene Expression"}\NormalTok{,}
+     \AttributeTok{breaks =} \DecValTok{30}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{MMM_files/figure-latex/unnamed-chunk-6-1.pdf} \#Q6 I
+loaded \texttt{growth\_data.csv} into a data frame and listed its
+columns. The dataset has a site label and tree identifier
+(\texttt{Site}, \texttt{TreeID}) plus trunk circumference measurements
+in centimeters for four censuses: \texttt{Circumf\_2005\_cm},
+\texttt{Circumf\_2010\_cm}, \texttt{Circumf\_2015\_cm}, and
+\texttt{Circumf\_2020\_cm}.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Q6: Read the growth CSV}
+\NormalTok{growth\_data }\OtherTok{\textless{}{-}} \FunctionTok{read.csv}\NormalTok{(}\StringTok{"growth\_data.csv"}\NormalTok{)}
+\FunctionTok{colnames}\NormalTok{(growth\_data)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "Site"            "TreeID"          "Circumf_2005_cm" "Circumf_2010_cm"
+## [5] "Circumf_2015_cm" "Circumf_2020_cm"
+\end{verbatim}
+
+\#I examined the structure of \texttt{growth\_data} and found it
+contains 100 observations with 6 variables. The dataset includes the
+site and tree ID, along with trunk circumference measurements (in cm)
+recorded at four time points: 2005, 2010, 2015, and 2020. Each row
+represents a single tree, showing its location and growth progression
+across years.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{str}\NormalTok{(growth\_data)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 'data.frame':    100 obs. of  6 variables:
+##  $ Site           : chr  "northeast" "southwest" "southwest" "northeast" ...
+##  $ TreeID         : chr  "A012" "A039" "A010" "A087" ...
+##  $ Circumf_2005_cm: num  5.2 4.9 3.7 3.8 3.8 5.9 4.4 5.3 7.1 3.8 ...
+##  $ Circumf_2010_cm: num  10.1 9.6 7.3 6.5 6.4 10 9.9 9 12 7.4 ...
+##  $ Circumf_2015_cm: num  19.9 18.9 14.3 10.9 10.9 16.8 22.2 15.2 20.2 14.5 ...
+##  $ Circumf_2020_cm: num  38.9 37 28.1 18.5 18.4 28.4 50 25.8 34.2 28.4 ...
+\end{verbatim}
+
+\#Q7 I calculated the average circumference and its standard deviation
+for trees in each site at the beginning (2005) and the end (2020). In
+2005, the northeast site had slightly larger trees on average (≈ 5.29
+cm) compared to the southwest (≈ 4.86 cm), with low variability. By
+2020, both sites showed substantial growth: northeast trees averaged ≈
+54.2 cm and southwest trees ≈ 45.6 cm. The standard deviations also rose
+(≈ 25.2 in northeast, ≈ 17.9 in southwest), showing that tree sizes
+became more variable over time.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Q7: Mean and SD at start (2005) and end (2020) }
+\NormalTok{mean\_start }\OtherTok{\textless{}{-}} \FunctionTok{tapply}\NormalTok{(growth\_data}\SpecialCharTok{$}\NormalTok{Circumf\_2005\_cm, growth\_data}\SpecialCharTok{$}\NormalTok{Site, mean)}
+\NormalTok{sd\_start   }\OtherTok{\textless{}{-}} \FunctionTok{tapply}\NormalTok{(growth\_data}\SpecialCharTok{$}\NormalTok{Circumf\_2005\_cm, growth\_data}\SpecialCharTok{$}\NormalTok{Site, sd)}
+\NormalTok{mean\_end   }\OtherTok{\textless{}{-}} \FunctionTok{tapply}\NormalTok{(growth\_data}\SpecialCharTok{$}\NormalTok{Circumf\_2020\_cm, growth\_data}\SpecialCharTok{$}\NormalTok{Site, mean)}
+\NormalTok{sd\_end     }\OtherTok{\textless{}{-}} \FunctionTok{tapply}\NormalTok{(growth\_data}\SpecialCharTok{$}\NormalTok{Circumf\_2020\_cm, growth\_data}\SpecialCharTok{$}\NormalTok{Site, sd)}
+
+\FunctionTok{data.frame}\NormalTok{(}
+  \AttributeTok{Site =} \FunctionTok{names}\NormalTok{(mean\_start),}
+  \AttributeTok{Mean\_2005 =} \FunctionTok{as.numeric}\NormalTok{(mean\_start),}
+  \AttributeTok{SD\_2005   =} \FunctionTok{as.numeric}\NormalTok{(sd\_start),}
+  \AttributeTok{Mean\_2020 =} \FunctionTok{as.numeric}\NormalTok{(mean\_end),}
+  \AttributeTok{SD\_2020   =} \FunctionTok{as.numeric}\NormalTok{(sd\_end),}
+  \AttributeTok{row.names =} \ConstantTok{NULL}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##        Site Mean_2005   SD_2005 Mean_2020  SD_2020
+## 1 northeast     5.292 0.9140267    54.228 25.22795
+## 2 southwest     4.862 1.1474710    45.596 17.87345
+\end{verbatim}
+
+\#Q8 I made boxplots comparing tree circumferences at the start (2005)
+and end (2020) of the study for both northeast and southwest sites.The
+plot shows that in 2005, trees at both sites had very small
+circumferences, tightly clustered around 5 cm. By 2020, the
+distributions had shifted dramatically upward: northeast trees reached
+higher median values and displayed a wider spread (greater variability),
+while southwest trees also grew substantially but remained somewhat
+smaller on average. This visualization highlights strong overall growth
+over 15 years, with northeast trees tending to become both larger and
+more variable in size compared to southwest trees.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Q8: Boxplot — start vs end of study (2005 vs 2020) at both sites  }
+\FunctionTok{boxplot}\NormalTok{(}
+\NormalTok{  growth\_data}\SpecialCharTok{$}\NormalTok{Circumf\_2005\_cm[growth\_data}\SpecialCharTok{$}\NormalTok{Site }\SpecialCharTok{==} \StringTok{"northeast"}\NormalTok{],}
+\NormalTok{  growth\_data}\SpecialCharTok{$}\NormalTok{Circumf\_2020\_cm[growth\_data}\SpecialCharTok{$}\NormalTok{Site }\SpecialCharTok{==} \StringTok{"northeast"}\NormalTok{],}
+\NormalTok{  growth\_data}\SpecialCharTok{$}\NormalTok{Circumf\_2005\_cm[growth\_data}\SpecialCharTok{$}\NormalTok{Site }\SpecialCharTok{==} \StringTok{"southwest"}\NormalTok{],}
+\NormalTok{  growth\_data}\SpecialCharTok{$}\NormalTok{Circumf\_2020\_cm[growth\_data}\SpecialCharTok{$}\NormalTok{Site }\SpecialCharTok{==} \StringTok{"southwest"}\NormalTok{],}
+  \AttributeTok{names =} \FunctionTok{c}\NormalTok{(}\StringTok{"Northeast 2005"}\NormalTok{, }\StringTok{"Northeast 2020"}\NormalTok{, }\StringTok{"Southwest 2005"}\NormalTok{, }\StringTok{"Southwest 2020"}\NormalTok{),}
+  \AttributeTok{ylab =} \StringTok{"Tree Circumference (cm)"}\NormalTok{,}
+  \AttributeTok{main =} \StringTok{"Tree Growth (Start vs End of Study)"}
+\NormalTok{)  }
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{MMM_files/figure-latex/unnamed-chunk-10-1.pdf} \#Q9 I
+calculated the average 10-year growth in tree circumference (2010 →
+2020) for each site. The results show that \textbf{northeast trees grew
+on average about 42.94 cm}, while \textbf{southwest trees grew about
+35.49 cm} over the same period. This indicates that trees in the
+northeast site had faster growth on average compared to those in the
+southwest.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Q9: Mean 10{-}year growth by site (2010 → 2020)}
+\NormalTok{growth\_data}\SpecialCharTok{$}\NormalTok{growth\_10yr }\OtherTok{\textless{}{-}}\NormalTok{ growth\_data}\SpecialCharTok{$}\NormalTok{Circumf\_2020\_cm }\SpecialCharTok{{-}}\NormalTok{ growth\_data}\SpecialCharTok{$}\NormalTok{Circumf\_2010\_cm}
+\NormalTok{northeast\_growth\_mean }\OtherTok{\textless{}{-}} \FunctionTok{mean}\NormalTok{(growth\_data}\SpecialCharTok{$}\NormalTok{growth\_10yr[growth\_data}\SpecialCharTok{$}\NormalTok{Site }\SpecialCharTok{==} \StringTok{"northeast"}\NormalTok{], }\AttributeTok{na.rm =} \ConstantTok{TRUE}\NormalTok{)}
+\NormalTok{southwest\_growth\_mean }\OtherTok{\textless{}{-}} \FunctionTok{mean}\NormalTok{(growth\_data}\SpecialCharTok{$}\NormalTok{growth\_10yr[growth\_data}\SpecialCharTok{$}\NormalTok{Site }\SpecialCharTok{==} \StringTok{"southwest"}\NormalTok{], }\AttributeTok{na.rm =} \ConstantTok{TRUE}\NormalTok{)}
+\FunctionTok{c}\NormalTok{(}\AttributeTok{Northeast\_mean\_10yr =}\NormalTok{ northeast\_growth\_mean,}
+  \AttributeTok{Southwest\_mean\_10yr =}\NormalTok{ southwest\_growth\_mean)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Northeast_mean_10yr Southwest_mean_10yr 
+##               42.94               35.49
+\end{verbatim}
+
+\#Q10 I performed a Welch two-sample t-test to compare 10-year growth
+between sites. The results show that northeast trees grew more on
+average (42.94 cm) than southwest trees (35.49 cm). The test statistic
+was t = 1.89 with a p-value of 0.062, and the 95\% confidence interval
+for the difference spanned from about -0.39 to 15.29. Since the p-value
+is slightly above 0.05, the difference in growth between sites is not
+statistically significant, though there is a clear trend toward greater
+growth in the northeast.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Q10: t{-}test on 10{-}year growth }
+\NormalTok{df }\OtherTok{\textless{}{-}} \FunctionTok{na.omit}\NormalTok{(growth\_data[, }\FunctionTok{c}\NormalTok{(}\StringTok{"Site"}\NormalTok{, }\StringTok{"growth\_10yr"}\NormalTok{)])}
+
+\NormalTok{t\_res }\OtherTok{\textless{}{-}} \FunctionTok{t.test}\NormalTok{(growth\_10yr }\SpecialCharTok{\textasciitilde{}}\NormalTok{ Site, }\AttributeTok{data =}\NormalTok{ df)  }
+\NormalTok{t\_res                 }
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##  Welch Two Sample t-test
+## 
+## data:  growth_10yr by Site
+## t = 1.8882, df = 87.978, p-value = 0.06229
+## alternative hypothesis: true difference in means between group northeast and group southwest is not equal to 0
+## 95 percent confidence interval:
+##  -0.3909251 15.2909251
+## sample estimates:
+## mean in group northeast mean in group southwest 
+##                   42.94                   35.49
+\end{verbatim}
+
+\#I loaded the needed packages---\textbf{seqinr} for sequence analysis
+and \textbf{R.utils} for utilities like \texttt{gunzip}while suppressing
+their startup messages.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Part 2}
+\FunctionTok{suppressPackageStartupMessages}\NormalTok{(\{}
+  \FunctionTok{library}\NormalTok{(seqinr)   }\CommentTok{\# sequence analysis}
+  \FunctionTok{library}\NormalTok{(R.utils)  }\CommentTok{\# gunzip}
+\NormalTok{\})}
+\end{Highlighting}
+\end{Shaded}
+
+\#I downloaded coding-sequence FASTA files for \emph{E. coli} K-12
+MG1655 and a \emph{Salmonella enterica} strain, decompressed the
+\texttt{.gz} archives, and verified the files exist. Then I read each
+FASTA with \texttt{seqinr::read.fasta}, so \texttt{cds\_ecoli} and
+\texttt{cds\_sal} are lists of CDS entries (each with a header and
+nucleotide sequence) ready for downstream analysis.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Download }
+\NormalTok{URL\_ecoli }\OtherTok{\textless{}{-}} \StringTok{"https://ftp.ensemblgenomes.ebi.ac.uk/pub/bacteria/release{-}62/fasta/bacteria\_0\_collection/escherichia\_coli\_str\_k\_12\_substr\_mg1655\_gca\_000005845/cds/Escherichia\_coli\_str\_k\_12\_substr\_mg1655\_gca\_000005845.ASM584v2.cds.all.fa.gz"}
+\NormalTok{URL\_sal   }\OtherTok{\textless{}{-}} \StringTok{"https://ftp.ensemblgenomes.ebi.ac.uk/pub/bacteria/release{-}62/fasta/bacteria\_50\_collection/salmonella\_enterica\_subsp\_enterica\_serovar\_weltevreden\_gca\_005518735/cds/Salmonella\_enterica\_subsp\_enterica\_serovar\_weltevreden\_gca\_005518735.ASM551873v1.cds.all.fa.gz"}
+
+\ControlFlowTok{if}\NormalTok{ (}\SpecialCharTok{!}\FunctionTok{file.exists}\NormalTok{(}\StringTok{"ecoli\_cds.fa"}\NormalTok{)) \{}
+  \FunctionTok{download.file}\NormalTok{(URL\_ecoli, }\AttributeTok{destfile =} \StringTok{"ecoli\_cds.fa.gz"}\NormalTok{, }\AttributeTok{quiet =} \ConstantTok{TRUE}\NormalTok{, }\AttributeTok{mode =} \StringTok{"wb"}\NormalTok{)}
+\NormalTok{  R.utils}\SpecialCharTok{::}\FunctionTok{gunzip}\NormalTok{(}\StringTok{"ecoli\_cds.fa.gz"}\NormalTok{, }\AttributeTok{overwrite =} \ConstantTok{TRUE}\NormalTok{)}
+\NormalTok{\}}
+\ControlFlowTok{if}\NormalTok{ (}\SpecialCharTok{!}\FunctionTok{file.exists}\NormalTok{(}\StringTok{"salmonella\_cds.fa"}\NormalTok{)) \{}
+  \FunctionTok{download.file}\NormalTok{(URL\_sal,  }\AttributeTok{destfile =} \StringTok{"salmonella\_cds.fa.gz"}\NormalTok{, }\AttributeTok{quiet =} \ConstantTok{TRUE}\NormalTok{, }\AttributeTok{mode =} \StringTok{"wb"}\NormalTok{)}
+\NormalTok{  R.utils}\SpecialCharTok{::}\FunctionTok{gunzip}\NormalTok{(}\StringTok{"salmonella\_cds.fa.gz"}\NormalTok{, }\AttributeTok{overwrite =} \ConstantTok{TRUE}\NormalTok{)}
+\NormalTok{\}}
+
+\CommentTok{\# Sanity check before reading}
+\FunctionTok{stopifnot}\NormalTok{(}\FunctionTok{file.exists}\NormalTok{(}\StringTok{"ecoli\_cds.fa"}\NormalTok{), }\FunctionTok{file.exists}\NormalTok{(}\StringTok{"salmonella\_cds.fa"}\NormalTok{))}
+
+\CommentTok{\# Read FASTA}
+\NormalTok{cds\_ecoli }\OtherTok{\textless{}{-}}\NormalTok{ seqinr}\SpecialCharTok{::}\FunctionTok{read.fasta}\NormalTok{(}\StringTok{"ecoli\_cds.fa"}\NormalTok{)}
+\NormalTok{cds\_sal   }\OtherTok{\textless{}{-}}\NormalTok{ seqinr}\SpecialCharTok{::}\FunctionTok{read.fasta}\NormalTok{(}\StringTok{"salmonella\_cds.fa"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\#I inspected the first six CDS entries in cds\_sal and saw each is a
+`SeqFastadna' object: a character vector of nucleotides (e.g., lengths
+417, 402, 2613\ldots) with attributes name (Ensembl-style ID like
+ENSB:rzMRPrOXj2f6n3A) and Annot, which holds the FASTA header. The
+header encodes metadata such as ``cds'', assembly (ASM551873v1), contig
+and coordinates, strand (+/−), and the linked gene ID---so each list
+element is one Salmonella CDS with its sequence and genomic annotation.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{str}\NormalTok{(}\FunctionTok{head}\NormalTok{(cds\_sal))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## List of 6
+##  $ ENSB:rzMRPrOXj2f6n3A: 'SeqFastadna' chr [1:417] "a" "t" "g" "c" ...
+##   ..- attr(*, "name")= chr "ENSB:rzMRPrOXj2f6n3A"
+##   ..- attr(*, "Annot")= chr ">ENSB:rzMRPrOXj2f6n3A cds primary_assembly:ASM551873v1:contig00038:4502:4918:-1 gene:ENSB:rzMRPrOXj2f6n3A gene_"| __truncated__
+##  $ ENSB:x3MzlaR1iM6Op6v: 'SeqFastadna' chr [1:402] "a" "t" "g" "a" ...
+##   ..- attr(*, "name")= chr "ENSB:x3MzlaR1iM6Op6v"
+##   ..- attr(*, "Annot")= chr ">ENSB:x3MzlaR1iM6Op6v cds primary_assembly:ASM551873v1:contig00003:321788:322189:1 gene:ENSB:x3MzlaR1iM6Op6v ge"| __truncated__
+##  $ ENSB:btfdQZt4_vWjqOV: 'SeqFastadna' chr [1:2613] "a" "t" "g" "a" ...
+##   ..- attr(*, "name")= chr "ENSB:btfdQZt4_vWjqOV"
+##   ..- attr(*, "Annot")= chr ">ENSB:btfdQZt4_vWjqOV cds primary_assembly:ASM551873v1:contig00009:90040:92652:1 gene:ENSB:btfdQZt4_vWjqOV gene"| __truncated__
+##  $ ENSB:IZ64ldiL3-oOAYf: 'SeqFastadna' chr [1:1314] "a" "t" "g" "t" ...
+##   ..- attr(*, "name")= chr "ENSB:IZ64ldiL3-oOAYf"
+##   ..- attr(*, "Annot")= chr ">ENSB:IZ64ldiL3-oOAYf cds primary_assembly:ASM551873v1:contig00025:33632:34945:1 gene:ENSB:IZ64ldiL3-oOAYf gene"| __truncated__
+##  $ ENSB:9CMZHlFso1POuRQ: 'SeqFastadna' chr [1:165] "a" "t" "g" "c" ...
+##   ..- attr(*, "name")= chr "ENSB:9CMZHlFso1POuRQ"
+##   ..- attr(*, "Annot")= chr ">ENSB:9CMZHlFso1POuRQ cds primary_assembly:ASM551873v1:contig00002:37459:37623:1 gene:ENSB:9CMZHlFso1POuRQ gene"| __truncated__
+##  $ ENSB:WDGo7WHsQXy-ZVK: 'SeqFastadna' chr [1:918] "a" "t" "g" "a" ...
+##   ..- attr(*, "name")= chr "ENSB:WDGo7WHsQXy-ZVK"
+##   ..- attr(*, "Annot")= chr ">ENSB:WDGo7WHsQXy-ZVK cds primary_assembly:ASM551873v1:contig00004:270379:271296:1 gene:ENSB:WDGo7WHsQXy-ZVK ge"| __truncated__
+\end{verbatim}
+
+\#Q1 I counted the number of CDS entries in each FASTA list with
+\texttt{length()}, then put the results in a small data frame. I found
+4,239 CDS for \emph{E. coli} MG1655 and 4,585 CDS for Salmonella
+Weltevreden, so the Salmonella genome build here contains slightly more
+annotated coding sequences than the E. coli reference.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Q1: Number of CDS in each organism }
+\NormalTok{num\_ecoli\_cds }\OtherTok{\textless{}{-}} \FunctionTok{length}\NormalTok{(cds\_ecoli)}
+\NormalTok{num\_salmonella\_cds }\OtherTok{\textless{}{-}} \FunctionTok{length}\NormalTok{(cds\_sal)}
+
+\FunctionTok{data.frame}\NormalTok{(}
+  \AttributeTok{Organism =} \FunctionTok{c}\NormalTok{(}\StringTok{"E. coli MG1655"}\NormalTok{, }\StringTok{"Salmonella Weltevreden"}\NormalTok{),}
+  \AttributeTok{CDS\_Count =} \FunctionTok{c}\NormalTok{(num\_ecoli\_cds, num\_salmonella\_cds),}
+  \AttributeTok{row.names =} \ConstantTok{NULL}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##                 Organism CDS_Count
+## 1         E. coli MG1655      4239
+## 2 Salmonella Weltevreden      4585
+\end{verbatim}
+
+\#Q2 I computed the length of each CDS by pulling the sequence lengths
+from \texttt{summary()} for the FASTA lists and then summed them per
+organism. The totals show about 3,978,528 bp of coding DNA in E. coli
+MG1655 and 4,294,851 bp in Salmonella Weltevreden, so Salmonella has a
+larger aggregate coding sequence than E. coli in these builds.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Q2: Total coding DNA length for each organism  }
+\NormalTok{len\_ecoli }\OtherTok{\textless{}{-}} \FunctionTok{as.numeric}\NormalTok{(}\FunctionTok{summary}\NormalTok{(cds\_ecoli)[, }\DecValTok{1}\NormalTok{])}
+\NormalTok{len\_sal   }\OtherTok{\textless{}{-}} \FunctionTok{as.numeric}\NormalTok{(}\FunctionTok{summary}\NormalTok{(cds\_sal)[, }\DecValTok{1}\NormalTok{])}
+
+\FunctionTok{data.frame}\NormalTok{(}
+  \AttributeTok{Organism =} \FunctionTok{c}\NormalTok{(}\StringTok{"E. coli MG1655"}\NormalTok{, }\StringTok{"Salmonella Weltevreden"}\NormalTok{),}
+  \AttributeTok{Total\_Coding\_DNA\_bp =} \FunctionTok{c}\NormalTok{(}\FunctionTok{sum}\NormalTok{(len\_ecoli), }\FunctionTok{sum}\NormalTok{(len\_sal)),}
+  \AttributeTok{row.names =} \ConstantTok{NULL}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##                 Organism Total_Coding_DNA_bp
+## 1         E. coli MG1655             3978528
+## 2 Salmonella Weltevreden             4294851
+\end{verbatim}
+
+\#Q3 I plotted CDS length distributions for Salmonella and E. coli. Both
+are right-skewed with many short CDS and a few very long outliers;
+Salmonella's median looks a bit higher and it shows more extreme long
+CDS.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Q3: Boxplot of CDS lengths + mean/median table  =}
+\FunctionTok{boxplot}\NormalTok{(len\_sal, len\_ecoli,}
+        \AttributeTok{names =} \FunctionTok{c}\NormalTok{(}\StringTok{"Salmonella"}\NormalTok{, }\StringTok{"E. coli"}\NormalTok{),}
+        \AttributeTok{ylab =} \StringTok{"CDS Length (bp)"}\NormalTok{,}
+        \AttributeTok{main =} \StringTok{"Distribution of CDS Lengths"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{MMM_files/figure-latex/unnamed-chunk-18-1.pdf} \#I
+computed summary stats for CDS lengths in both organisms. The table
+shows the mean CDS length is almost the same \textasciitilde936.7 bp for
+Salmonella and \textasciitilde938.6 bp for E. coli---and I also included
+the median column.The means being slightly higher than the medians
+reflects the right-skewed distributions with a few very long CDS,
+consistent with the boxplot.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{length\_stats }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(}
+  \AttributeTok{Organism =} \FunctionTok{c}\NormalTok{(}\StringTok{"Salmonella Weltevreden"}\NormalTok{, }\StringTok{"E. coli MG1655"}\NormalTok{),}
+  \AttributeTok{Mean\_CDS\_Length   =} \FunctionTok{c}\NormalTok{(}\FunctionTok{mean}\NormalTok{(len\_sal), }\FunctionTok{mean}\NormalTok{(len\_ecoli)),}
+  \AttributeTok{Median\_CDS\_Length =} \FunctionTok{c}\NormalTok{(}\FunctionTok{median}\NormalTok{(len\_sal), }\FunctionTok{median}\NormalTok{(len\_ecoli))}
+\NormalTok{)}
+\NormalTok{length\_stats}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##                 Organism Mean_CDS_Length Median_CDS_Length
+## 1 Salmonella Weltevreden        936.7178               804
+## 2         E. coli MG1655        938.5534               831
+\end{verbatim}
+
+\#Q4/5 I tallied nucleotide counts across all CDS with
+table(unlist(\ldots)) and plotted them; both organisms show a modest GC
+bias---g (and c) are a bit higher than a/t. I then translated every CDS
+using the bacterial code (11) and plotted amino-acid frequencies. As
+expected for GC-rich bacteria, Leu (L) is most common, with Ala (A), Gly
+(G), Val (V), Ser (S) also high; Trp (W) and Cys (C) are among the
+rarest, and the stop (*) count is small. The overall profiles are very
+similar between Salmonella and E. coli, with Salmonella showing a
+slightly stronger GC/GC-codon signal.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Q4/Q5: Nucleotide and amino acid frequencies}
+
+\CommentTok{\# DNA composition (nucleotide frequency)}
+\FunctionTok{barplot}\NormalTok{(}\FunctionTok{table}\NormalTok{(}\FunctionTok{unlist}\NormalTok{(cds\_sal)),}
+        \AttributeTok{main =} \StringTok{"Salmonella Nucleotide Frequency"}\NormalTok{,}
+        \AttributeTok{xlab =} \StringTok{"Nucleotide"}\NormalTok{, }\AttributeTok{ylab =} \StringTok{"Frequency"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{MMM_files/figure-latex/unnamed-chunk-20-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{barplot}\NormalTok{(}\FunctionTok{table}\NormalTok{(}\FunctionTok{unlist}\NormalTok{(cds\_ecoli)),}
+        \AttributeTok{main =} \StringTok{"E. coli Nucleotide Frequency"}\NormalTok{,}
+        \AttributeTok{xlab =} \StringTok{"Nucleotide"}\NormalTok{, }\AttributeTok{ylab =} \StringTok{"Frequency"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{MMM_files/figure-latex/unnamed-chunk-20-2.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Translate with bacterial code using namespaced seqinr::translate}
+\NormalTok{prot\_sal   }\OtherTok{\textless{}{-}} \FunctionTok{lapply}\NormalTok{(cds\_sal,   }\ControlFlowTok{function}\NormalTok{(x) seqinr}\SpecialCharTok{::}\FunctionTok{translate}\NormalTok{(x, }\AttributeTok{numcode =} \DecValTok{11}\NormalTok{))}
+\NormalTok{prot\_ecoli }\OtherTok{\textless{}{-}} \FunctionTok{lapply}\NormalTok{(cds\_ecoli, }\ControlFlowTok{function}\NormalTok{(x) seqinr}\SpecialCharTok{::}\FunctionTok{translate}\NormalTok{(x, }\AttributeTok{numcode =} \DecValTok{11}\NormalTok{))}
+
+\CommentTok{\# Amino acid composition}
+\FunctionTok{barplot}\NormalTok{(}\FunctionTok{table}\NormalTok{(}\FunctionTok{unlist}\NormalTok{(prot\_sal)),}
+        \AttributeTok{main =} \StringTok{"Salmonella Amino Acid Frequency"}\NormalTok{,}
+        \AttributeTok{xlab =} \StringTok{"Amino Acid"}\NormalTok{, }\AttributeTok{ylab =} \StringTok{"Frequency"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{MMM_files/figure-latex/unnamed-chunk-20-3.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{barplot}\NormalTok{(}\FunctionTok{table}\NormalTok{(}\FunctionTok{unlist}\NormalTok{(prot\_ecoli)),}
+        \AttributeTok{main =} \StringTok{"E. coli Amino Acid Frequency"}\NormalTok{,}
+        \AttributeTok{xlab =} \StringTok{"Amino Acid"}\NormalTok{, }\AttributeTok{ylab =} \StringTok{"Frequency"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{MMM_files/figure-latex/unnamed-chunk-20-4.pdf} \#Q6 I
+ranked codon usage by RSCU and saw a clear GC bias in both genomes: CTG
+(Leu) is the top codon, with many other favored G/C-ending codons (CGC,
+CCG, GGC). Comparing amino-acid k-mers (k=3--5) between Salmonella and
+E. coli, I found the most common motifs are rich in Leu and Ala (e.g.,
+LLA, ALAA, LLLAL), while the rarest combinations include infrequent
+residues like Trp, Cys, His, or Tyr. Across all plots the two species
+closely match, indicating similar codon preferences and local amino-acid
+composition, with only minor differences at the extremes. I think the
+different levels come from a mix of forces. First, both genomes are
+moderately GC-rich, so G/C-ending codons naturally arise more often and
+persist, boosting RSCU for codons like CTG/CGC/CCG/GGC. Second,
+translation selection matters: highly expressed genes prefer codons that
+match abundant tRNAs, so if tRNA\^{}Leu(CAG) is plentiful, CTG (Leu)
+wins. Third, protein chemistry shapes k-mers---Leu and Ala are cheap,
+hydrophobic, and helix-friendly, so L/A-rich motifs are common, while
+costly or reactive residues (Trp, Cys, His, Tyr) are rarer. mRNA-level
+constraints (avoiding strong secondary structures or problematic motifs)
+and codon-pair/dipeptide kinetics also bias which sequences are favored.
+Finally, lineage history and horizontal gene transfer introduce
+species-specific codon signatures. Overall, shared GC content and
+translational ecology explain the similarity, while tRNA pools,
+expression programs, structural demands, and HGT create the subtle
+differences.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Q6: Codon usage — counts ("eff") and RSCU}
+\NormalTok{codon\_usage\_sal\_counts   }\OtherTok{\textless{}{-}}\NormalTok{ seqinr}\SpecialCharTok{::}\FunctionTok{uco}\NormalTok{(}\FunctionTok{unlist}\NormalTok{(cds\_sal),   }\AttributeTok{index =} \StringTok{"eff"}\NormalTok{)}
+\NormalTok{codon\_usage\_ecoli\_counts }\OtherTok{\textless{}{-}}\NormalTok{ seqinr}\SpecialCharTok{::}\FunctionTok{uco}\NormalTok{(}\FunctionTok{unlist}\NormalTok{(cds\_ecoli), }\AttributeTok{index =} \StringTok{"eff"}\NormalTok{)}
+
+\NormalTok{rscu\_sal   }\OtherTok{\textless{}{-}}\NormalTok{ seqinr}\SpecialCharTok{::}\FunctionTok{uco}\NormalTok{(}\FunctionTok{unlist}\NormalTok{(cds\_sal),   }\AttributeTok{index =} \StringTok{"rscu"}\NormalTok{)}
+\NormalTok{rscu\_ecoli }\OtherTok{\textless{}{-}}\NormalTok{ seqinr}\SpecialCharTok{::}\FunctionTok{uco}\NormalTok{(}\FunctionTok{unlist}\NormalTok{(cds\_ecoli), }\AttributeTok{index =} \StringTok{"rscu"}\NormalTok{)}
+
+\CommentTok{\# Top 20 by RSCU}
+\FunctionTok{barplot}\NormalTok{(}\FunctionTok{sort}\NormalTok{(rscu\_sal,   }\AttributeTok{decreasing =} \ConstantTok{TRUE}\NormalTok{)[}\DecValTok{1}\SpecialCharTok{:}\DecValTok{20}\NormalTok{],}
+        \AttributeTok{las =} \DecValTok{2}\NormalTok{, }\AttributeTok{xlab =} \StringTok{"Codon"}\NormalTok{, }\AttributeTok{ylab =} \StringTok{"RSCU"}\NormalTok{,}
+        \AttributeTok{main =} \StringTok{"Salmonella — Top 20 Codons (RSCU)"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning in title(main = main, sub = sub, xlab = xlab, ylab = ylab, ...):
+## conversion failure on 'Salmonella — Top 20 Codons (RSCU)' in 'mbcsToSbcs': dot
+## substituted for <e2>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in title(main = main, sub = sub, xlab = xlab, ylab = ylab, ...):
+## conversion failure on 'Salmonella — Top 20 Codons (RSCU)' in 'mbcsToSbcs': dot
+## substituted for <80>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in title(main = main, sub = sub, xlab = xlab, ylab = ylab, ...):
+## conversion failure on 'Salmonella — Top 20 Codons (RSCU)' in 'mbcsToSbcs': dot
+## substituted for <94>
+\end{verbatim}
+
+\includegraphics{MMM_files/figure-latex/unnamed-chunk-21-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{barplot}\NormalTok{(}\FunctionTok{sort}\NormalTok{(rscu\_ecoli, }\AttributeTok{decreasing =} \ConstantTok{TRUE}\NormalTok{)[}\DecValTok{1}\SpecialCharTok{:}\DecValTok{20}\NormalTok{],}
+        \AttributeTok{las =} \DecValTok{2}\NormalTok{, }\AttributeTok{xlab =} \StringTok{"Codon"}\NormalTok{, }\AttributeTok{ylab =} \StringTok{"RSCU"}\NormalTok{,}
+        \AttributeTok{main =} \StringTok{"E. coli — Top 20 Codons (RSCU)"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning in title(main = main, sub = sub, xlab = xlab, ylab = ylab, ...):
+## conversion failure on 'E. coli — Top 20 Codons (RSCU)' in 'mbcsToSbcs': dot
+## substituted for <e2>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in title(main = main, sub = sub, xlab = xlab, ylab = ylab, ...):
+## conversion failure on 'E. coli — Top 20 Codons (RSCU)' in 'mbcsToSbcs': dot
+## substituted for <80>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in title(main = main, sub = sub, xlab = xlab, ylab = ylab, ...):
+## conversion failure on 'E. coli — Top 20 Codons (RSCU)' in 'mbcsToSbcs': dot
+## substituted for <94>
+\end{verbatim}
+
+\includegraphics{MMM_files/figure-latex/unnamed-chunk-21-2.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# {-}{-}{-}{-} Protein k{-}mer analysis: Salmonella vs E. coli (k = 3, 4, 5) }
+\CommentTok{\# Using seqinr + base R.}
+
+\CommentTok{\# 1) Ensure translated proteins exist}
+\ControlFlowTok{if}\NormalTok{ (}\SpecialCharTok{!}\FunctionTok{exists}\NormalTok{(}\StringTok{"prot\_sal"}\NormalTok{) }\SpecialCharTok{||} \SpecialCharTok{!}\FunctionTok{exists}\NormalTok{(}\StringTok{"prot\_ecoli"}\NormalTok{)) \{}
+\NormalTok{  prot\_sal   }\OtherTok{\textless{}{-}} \FunctionTok{lapply}\NormalTok{(cds\_sal,   }\ControlFlowTok{function}\NormalTok{(x) seqinr}\SpecialCharTok{::}\FunctionTok{translate}\NormalTok{(x, }\AttributeTok{numcode =} \DecValTok{11}\NormalTok{))}
+\NormalTok{  prot\_ecoli }\OtherTok{\textless{}{-}} \FunctionTok{lapply}\NormalTok{(cds\_ecoli, }\ControlFlowTok{function}\NormalTok{(x) seqinr}\SpecialCharTok{::}\FunctionTok{translate}\NormalTok{(x, }\AttributeTok{numcode =} \DecValTok{11}\NormalTok{))}
+\NormalTok{\}}
+
+\CommentTok{\# 2) Remove stop codons \textquotesingle{}*\textquotesingle{} and flatten to single AA vectors}
+\NormalTok{prot\_sal   }\OtherTok{\textless{}{-}} \FunctionTok{lapply}\NormalTok{(prot\_sal,   }\ControlFlowTok{function}\NormalTok{(v) v[v }\SpecialCharTok{!=} \StringTok{"*"}\NormalTok{])}
+\NormalTok{prot\_ecoli }\OtherTok{\textless{}{-}} \FunctionTok{lapply}\NormalTok{(prot\_ecoli, }\ControlFlowTok{function}\NormalTok{(v) v[v }\SpecialCharTok{!=} \StringTok{"*"}\NormalTok{])}
+\NormalTok{prots\_sal   }\OtherTok{\textless{}{-}} \FunctionTok{unlist}\NormalTok{(prot\_sal)}
+\NormalTok{prots\_ecoli }\OtherTok{\textless{}{-}} \FunctionTok{unlist}\NormalTok{(prot\_ecoli)}
+
+\CommentTok{\# 3) Explicit 20{-}AA alphabet }
+\NormalTok{AA }\OtherTok{\textless{}{-}} \FunctionTok{strsplit}\NormalTok{(}\StringTok{"ACDEFGHIKLMNPQRSTVWY"}\NormalTok{, }\StringTok{""}\NormalTok{)[[}\DecValTok{1}\NormalTok{]]}
+
+\CommentTok{\# 4) Helper}
+\NormalTok{aa\_kmer\_freq }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(aa\_vec, k) \{}
+\NormalTok{  seqinr}\SpecialCharTok{::}\FunctionTok{count}\NormalTok{(aa\_vec, }\AttributeTok{wordsize =}\NormalTok{ k, }\AttributeTok{alphabet =}\NormalTok{ AA, }\AttributeTok{freq =} \ConstantTok{TRUE}\NormalTok{)}
+\NormalTok{\}}
+
+\CommentTok{\# 5) For each k in 3:5, pick Salmonella’s top/bottom 10 and compare to E. coli}
+\NormalTok{analyze\_k }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(k) \{}
+\NormalTok{  freq\_sal   }\OtherTok{\textless{}{-}} \FunctionTok{aa\_kmer\_freq}\NormalTok{(prots\_sal,   k)}
+\NormalTok{  freq\_ecoli }\OtherTok{\textless{}{-}} \FunctionTok{aa\_kmer\_freq}\NormalTok{(prots\_ecoli, k)}
+
+  \ControlFlowTok{if}\NormalTok{ (}\FunctionTok{length}\NormalTok{(freq\_sal) }\SpecialCharTok{==} \DecValTok{0}\NormalTok{) }\FunctionTok{return}\NormalTok{(}\FunctionTok{invisible}\NormalTok{(}\ConstantTok{NULL}\NormalTok{))}
+
+  \CommentTok{\# Top 10 (by Salmonella)}
+\NormalTok{  top10    }\OtherTok{\textless{}{-}} \FunctionTok{sort}\NormalTok{(freq\_sal, }\AttributeTok{decreasing =} \ConstantTok{TRUE}\NormalTok{)[}\DecValTok{1}\SpecialCharTok{:}\FunctionTok{min}\NormalTok{(}\DecValTok{10}\NormalTok{, }\FunctionTok{sum}\NormalTok{(freq\_sal }\SpecialCharTok{\textgreater{}} \DecValTok{0}\NormalTok{))]}
+\NormalTok{  bottom10 }\OtherTok{\textless{}{-}} \FunctionTok{sort}\NormalTok{(freq\_sal, }\AttributeTok{decreasing =} \ConstantTok{FALSE}\NormalTok{)[}\DecValTok{1}\SpecialCharTok{:}\FunctionTok{min}\NormalTok{(}\DecValTok{10}\NormalTok{, }\FunctionTok{length}\NormalTok{(freq\_sal))]}
+
+  \CommentTok{\# Align on the same k{-}mer names for comparison}
+\NormalTok{  comp\_top }\OtherTok{\textless{}{-}} \FunctionTok{rbind}\NormalTok{(}\AttributeTok{Salmonella =}\NormalTok{ freq\_sal[}\FunctionTok{names}\NormalTok{(top10)],}
+                    \StringTok{\textasciigrave{}}\AttributeTok{E. coli}\StringTok{\textasciigrave{}}  \OtherTok{=}\NormalTok{ freq\_ecoli[}\FunctionTok{names}\NormalTok{(top10)])}
+\NormalTok{  comp\_bottom }\OtherTok{\textless{}{-}} \FunctionTok{rbind}\NormalTok{(}\AttributeTok{Salmonella =}\NormalTok{ freq\_sal[}\FunctionTok{names}\NormalTok{(bottom10)],}
+                       \StringTok{\textasciigrave{}}\AttributeTok{E. coli}\StringTok{\textasciigrave{}}  \OtherTok{=}\NormalTok{ freq\_ecoli[}\FunctionTok{names}\NormalTok{(bottom10)])}
+
+  \CommentTok{\# Plots}
+\NormalTok{  op }\OtherTok{\textless{}{-}} \FunctionTok{par}\NormalTok{(}\AttributeTok{no.readonly =} \ConstantTok{TRUE}\NormalTok{); }\FunctionTok{par}\NormalTok{(}\AttributeTok{mfrow =} \FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{2}\NormalTok{), }\AttributeTok{mar =} \FunctionTok{c}\NormalTok{( nine }\OtherTok{\textless{}{-}} \DecValTok{9}\NormalTok{, }\DecValTok{4}\NormalTok{, }\DecValTok{3}\NormalTok{, }\DecValTok{1}\NormalTok{))}
+  \FunctionTok{barplot}\NormalTok{(comp\_top, }\AttributeTok{beside =} \ConstantTok{TRUE}\NormalTok{, }\AttributeTok{las =} \DecValTok{2}\NormalTok{, }\AttributeTok{ylab =} \StringTok{"Frequency"}\NormalTok{,}
+          \AttributeTok{main =} \FunctionTok{paste0}\NormalTok{(}\StringTok{"k="}\NormalTok{, k, }\StringTok{" — Top 10 in Salmonella"}\NormalTok{))}
+  \FunctionTok{barplot}\NormalTok{(comp\_bottom, }\AttributeTok{beside =} \ConstantTok{TRUE}\NormalTok{, }\AttributeTok{las =} \DecValTok{2}\NormalTok{, }\AttributeTok{ylab =} \StringTok{"Frequency"}\NormalTok{,}
+          \AttributeTok{main =} \FunctionTok{paste0}\NormalTok{(}\StringTok{"k="}\NormalTok{, k, }\StringTok{" — Bottom 10 in Salmonella"}\NormalTok{))}
+  \FunctionTok{par}\NormalTok{(op)}
+
+  \FunctionTok{invisible}\NormalTok{(}\FunctionTok{list}\NormalTok{(}\AttributeTok{k =}\NormalTok{ k, }\AttributeTok{top =}\NormalTok{ top10, }\AttributeTok{bottom =}\NormalTok{ bottom10,}
+                 \AttributeTok{comp\_top =}\NormalTok{ comp\_top, }\AttributeTok{comp\_bottom =}\NormalTok{ comp\_bottom))}
+\NormalTok{\}}
+
+\NormalTok{res\_k3 }\OtherTok{\textless{}{-}} \FunctionTok{analyze\_k}\NormalTok{(}\DecValTok{3}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning in title(main = main, sub = sub, xlab = xlab, ylab = ylab, ...):
+## conversion failure on 'k=3 — Top 10 in Salmonella' in 'mbcsToSbcs': dot
+## substituted for <e2>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in title(main = main, sub = sub, xlab = xlab, ylab = ylab, ...):
+## conversion failure on 'k=3 — Top 10 in Salmonella' in 'mbcsToSbcs': dot
+## substituted for <80>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in title(main = main, sub = sub, xlab = xlab, ylab = ylab, ...):
+## conversion failure on 'k=3 — Top 10 in Salmonella' in 'mbcsToSbcs': dot
+## substituted for <94>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in title(main = main, sub = sub, xlab = xlab, ylab = ylab, ...):
+## conversion failure on 'k=3 — Bottom 10 in Salmonella' in 'mbcsToSbcs': dot
+## substituted for <e2>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in title(main = main, sub = sub, xlab = xlab, ylab = ylab, ...):
+## conversion failure on 'k=3 — Bottom 10 in Salmonella' in 'mbcsToSbcs': dot
+## substituted for <80>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in title(main = main, sub = sub, xlab = xlab, ylab = ylab, ...):
+## conversion failure on 'k=3 — Bottom 10 in Salmonella' in 'mbcsToSbcs': dot
+## substituted for <94>
+\end{verbatim}
+
+\includegraphics{MMM_files/figure-latex/unnamed-chunk-21-3.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{res\_k4 }\OtherTok{\textless{}{-}} \FunctionTok{analyze\_k}\NormalTok{(}\DecValTok{4}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning in title(main = main, sub = sub, xlab = xlab, ylab = ylab, ...):
+## conversion failure on 'k=4 — Top 10 in Salmonella' in 'mbcsToSbcs': dot
+## substituted for <e2>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in title(main = main, sub = sub, xlab = xlab, ylab = ylab, ...):
+## conversion failure on 'k=4 — Top 10 in Salmonella' in 'mbcsToSbcs': dot
+## substituted for <80>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in title(main = main, sub = sub, xlab = xlab, ylab = ylab, ...):
+## conversion failure on 'k=4 — Top 10 in Salmonella' in 'mbcsToSbcs': dot
+## substituted for <94>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in title(main = main, sub = sub, xlab = xlab, ylab = ylab, ...):
+## conversion failure on 'k=4 — Bottom 10 in Salmonella' in 'mbcsToSbcs': dot
+## substituted for <e2>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in title(main = main, sub = sub, xlab = xlab, ylab = ylab, ...):
+## conversion failure on 'k=4 — Bottom 10 in Salmonella' in 'mbcsToSbcs': dot
+## substituted for <80>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in title(main = main, sub = sub, xlab = xlab, ylab = ylab, ...):
+## conversion failure on 'k=4 — Bottom 10 in Salmonella' in 'mbcsToSbcs': dot
+## substituted for <94>
+\end{verbatim}
+
+\includegraphics{MMM_files/figure-latex/unnamed-chunk-21-4.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{res\_k5 }\OtherTok{\textless{}{-}} \FunctionTok{analyze\_k}\NormalTok{(}\DecValTok{5}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning in title(main = main, sub = sub, xlab = xlab, ylab = ylab, ...):
+## conversion failure on 'k=5 — Top 10 in Salmonella' in 'mbcsToSbcs': dot
+## substituted for <e2>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in title(main = main, sub = sub, xlab = xlab, ylab = ylab, ...):
+## conversion failure on 'k=5 — Top 10 in Salmonella' in 'mbcsToSbcs': dot
+## substituted for <80>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in title(main = main, sub = sub, xlab = xlab, ylab = ylab, ...):
+## conversion failure on 'k=5 — Top 10 in Salmonella' in 'mbcsToSbcs': dot
+## substituted for <94>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in title(main = main, sub = sub, xlab = xlab, ylab = ylab, ...):
+## conversion failure on 'k=5 — Bottom 10 in Salmonella' in 'mbcsToSbcs': dot
+## substituted for <e2>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in title(main = main, sub = sub, xlab = xlab, ylab = ylab, ...):
+## conversion failure on 'k=5 — Bottom 10 in Salmonella' in 'mbcsToSbcs': dot
+## substituted for <80>
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in title(main = main, sub = sub, xlab = xlab, ylab = ylab, ...):
+## conversion failure on 'k=5 — Bottom 10 in Salmonella' in 'mbcsToSbcs': dot
+## substituted for <94>
+\end{verbatim}
+
+\includegraphics{MMM_files/figure-latex/unnamed-chunk-21-5.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{sessionInfo}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## R version 4.1.2 (2021-11-01)
+## Platform: x86_64-pc-linux-gnu (64-bit)
+## Running under: Ubuntu 22.04.5 LTS
+## 
+## Matrix products: default
+## BLAS:   /usr/lib/x86_64-linux-gnu/blas/libblas.so.3.10.0
+## LAPACK: /usr/lib/x86_64-linux-gnu/lapack/liblapack.so.3.10.0
+## 
+## locale:
+##  [1] LC_CTYPE=C.UTF-8       LC_NUMERIC=C           LC_TIME=C.UTF-8       
+##  [4] LC_COLLATE=C.UTF-8     LC_MONETARY=C.UTF-8    LC_MESSAGES=C.UTF-8   
+##  [7] LC_PAPER=C.UTF-8       LC_NAME=C              LC_ADDRESS=C          
+## [10] LC_TELEPHONE=C         LC_MEASUREMENT=C.UTF-8 LC_IDENTIFICATION=C   
+## 
+## attached base packages:
+## [1] stats     graphics  grDevices utils     datasets  methods   base     
+## 
+## other attached packages:
+## [1] R.utils_2.13.0    R.oo_1.27.1       R.methodsS3_1.8.2 seqinr_4.2-36    
+## 
+## loaded via a namespace (and not attached):
+##  [1] Rcpp_1.1.0        digest_0.6.37     MASS_7.3-55       evaluate_1.0.5   
+##  [5] rlang_1.1.6       cli_3.6.5         rmarkdown_2.29    tools_4.1.2      
+##  [9] ade4_1.7-23       xfun_0.53         yaml_2.3.10       fastmap_1.2.0    
+## [13] compiler_4.1.2    htmltools_0.5.8.1 knitr_1.50
+\end{verbatim}
+
+\end{document}
