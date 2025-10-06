@@ -61,9 +61,7 @@ This project analyses tree growth across two sites from 2005–2020 and includes
 └─ README.md
 ```
 
-#Marking hint (code clarity)
 
-All code chunks in `MMM.Rmd` include clear, top-of-chunk comments describing goal → steps → output so another reader can follow the logic quickly.
 
 ```
 
